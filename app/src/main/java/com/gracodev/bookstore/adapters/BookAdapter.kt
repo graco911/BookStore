@@ -71,15 +71,13 @@ class BookAdapterViewHolder(private val binding: BookItemLayoutBinding) :
             textViewAuthorName.text = item.author
         }
     }
-
-
 }
 
 class BookHeaderAdapterViewHolder(private val binding: BookHeaderLayoutBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(book: Book) {
         with(binding.root) {
-            headetTitle.text = "${book.title} (${(book.description)})"
+            headetTitle.text = "${book.genre} (${(book.description)})"
         }
     }
 }

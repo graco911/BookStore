@@ -54,11 +54,47 @@ class FirstFragment : Fragment(), KodeinAware {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getBooksReponse.observe(viewLifecycleOwner, {
+        viewModel.getBooksReponse.observe(viewLifecycleOwner, { it ->
             it.getContentIfNotHandled()?.let { response ->
                 if (response.results != null) {
                     books = response.results!!.books
-                    booksRecyclerView.adapter = BookAdapter(books)
+                    booksRecyclerView.adapter = BookAdapter(
+                        mutableListOf(
+                            Book(
+                                title = "HEADER",
+                                genre = "History",
+                                description = books.count { book ->
+                                    book.genre == "History"
+                                }.toString()
+                            ),
+                        ) + books.filter { book ->
+                            book.genre == "History"
+                        } +
+
+                                mutableListOf(
+                                    Book(
+                                        title = "HEADER",
+                                        genre = "Science",
+                                        description = books.count { book ->
+                                            book.genre == "Science"
+                                        }.toString()
+                                    ),
+                                ) + books.filter { book ->
+                            book.genre == "Science"
+                        } +
+
+                                mutableListOf(
+                                    Book(
+                                        title = "HEADER",
+                                        genre = "Business",
+                                        description = books.count { book ->
+                                            book.genre == "Business"
+                                        }.toString()
+                                    ),
+                                ) + books.filter { book ->
+                            book.genre == "Business"
+                        },
+                    )
                 }
             }
         })

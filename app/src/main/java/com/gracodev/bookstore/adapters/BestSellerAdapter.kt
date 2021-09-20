@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gracodev.bookstore.R
 import com.gracodev.bookstore.databinding.BookHeaderLayoutBinding
 import com.gracodev.bookstore.databinding.BookItemLayoutBinding
+import com.gracodev.bookstore.databinding.BookItemLayoutHorizontalBinding
 import com.gracodev.bookstore.models.Book
+import com.gracodev.extensions.loadUrl
+import kotlinx.android.synthetic.main.book_item_layout.view.*
 
 class BestSellerAdapter internal constructor(
     private val items: List<Book>
@@ -36,8 +39,8 @@ class BestSellerAdapter internal constructor(
                 )
             )
         } else {
-            return BookAdapterViewHolder(
-                BookItemLayoutBinding.bind(
+            return BookAdapterHorizontalViewHolder(
+                BookItemLayoutHorizontalBinding.bind(
                     LayoutInflater.from(parent.context).inflate(
                         R.layout.book_item_layout_horizontal, parent, false
                     )
@@ -50,11 +53,22 @@ class BestSellerAdapter internal constructor(
         if (getItemViewType(position) == HEADER_TYPE) {
             (holder as BookHeaderAdapterViewHolder).bind(items[position])
         } else {
-            (holder as BookAdapterViewHolder).bind(items[position])
+            (holder as BookAdapterHorizontalViewHolder).bind(items[position])
         }
     }
 
     override fun getItemCount(): Int {
         return items.size
+    }
+}
+
+class BookAdapterHorizontalViewHolder(private val binding: BookItemLayoutHorizontalBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(item: Book) {
+        with(binding.root) {
+            imageBook.loadUrl(item.img)
+            textViewBookName.text = item.title
+            textViewAuthorName.text = item.author
+        }
     }
 }

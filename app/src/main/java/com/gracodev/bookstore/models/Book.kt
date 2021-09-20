@@ -5,11 +5,11 @@ data class BookData(
 )
 
 data class Book(
-    val author: String,
-    val description: String,
-    val genre: String,
-    val img: String,
-    val imported: Boolean,
-    val isbn: String,
-    val title: String
+    val author: String = "",
+    val description: String = "",
+    val genre: String = "",
+    val img: String = "",
+    val imported: Boolean = false,
+    val isbn: String = "",
+    val title: String = ""
 )
