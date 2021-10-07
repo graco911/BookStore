@@ -51,13 +51,26 @@ class FirstFragment : Fragment(), KodeinAware {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            viewModel.getBooks()
+            viewModel.getBestSellers()
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getBooksReponse.observe(viewLifecycleOwner, { it ->
             it.getContentIfNotHandled()?.let { response ->
                 if (response.results != null) {
+
                     books = response.results!!.books
+
+                    viewModel.setCounterValue(books.size)
+
                     booksRecyclerView.adapter = BookAdapter(
                         mutableListOf(
                             Book(
@@ -113,6 +126,5 @@ class FirstFragment : Fragment(), KodeinAware {
             viewModel.getBooks()
             viewModel.getBestSellers()
         }
-
     }
 }

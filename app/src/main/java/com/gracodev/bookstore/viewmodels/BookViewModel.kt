@@ -1,5 +1,6 @@
 package com.gracodev.bookstore.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gracodev.bookstore.models.BestSeller
 import com.gracodev.bookstore.models.BookData
@@ -13,6 +14,9 @@ import java.lang.Exception
 class BookViewModel(
     private val repository: BookRepository
 ) : ViewModelBase() {
+
+    val _counter = MutableLiveData<String>()
+    val counter: LiveData<String> get() = _counter
 
     val getBooksReponse = MutableLiveData<Event<ResponseObject<BookData>>>()
     val getBestSellersReponse = MutableLiveData<Event<ResponseObject<BestSeller>>>()
@@ -52,4 +56,7 @@ class BookViewModel(
         }
     }
 
+    fun setCounterValue(size: Int) {
+        _counter.value = size.toString()
+    }
 }
